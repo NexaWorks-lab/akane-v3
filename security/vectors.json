@@ -1,0 +1,568 @@
+{
+  "note": "GAS（09・13）とGitHub（security/）の共通試験データ。試験用の鍵は公開値で、本番では使わない。",
+  "test_key": "b3db381e27753a8eaec4f3c9694fdf39894cd8bd43310d02703e23744488a684",
+  "other_key": "5d21aa95dbd9844433274d13f12473ef3878320abd6b6df6d8e4c8201574db41",
+  "canonical_valid": [
+    {
+      "input": null,
+      "expect": "null"
+    },
+    {
+      "input": true,
+      "expect": "true"
+    },
+    {
+      "input": false,
+      "expect": "false"
+    },
+    {
+      "input": 0,
+      "expect": "0"
+    },
+    {
+      "input": 1,
+      "expect": "1"
+    },
+    {
+      "input": -1,
+      "expect": "-1"
+    },
+    {
+      "input": 9007199254740991,
+      "expect": "9007199254740991"
+    },
+    {
+      "input": -9007199254740991,
+      "expect": "-9007199254740991"
+    },
+    {
+      "input": "",
+      "expect": "\"\""
+    },
+    {
+      "input": "a",
+      "expect": "\"a\""
+    },
+    {
+      "input": "あかね",
+      "expect": "\"あかね\""
+    },
+    {
+      "input": "絵文字😀",
+      "expect": "\"絵文字😀\""
+    },
+    {
+      "input": "quote\"back\\slash",
+      "expect": "\"quote\\\"back\\\\slash\""
+    },
+    {
+      "input": "line\nbreak\ttab",
+      "expect": "\"line\\nbreak\\ttab\""
+    },
+    {
+      "input": "\u0001\u001f",
+      "expect": "\"\\u0001\\u001f\""
+    },
+    {
+      "input": "  ",
+      "expect": "\"  \""
+    },
+    {
+      "input": "é",
+      "expect": "\"é\""
+    },
+    {
+      "input": "/",
+      "expect": "\"/\""
+    },
+    {
+      "input": [],
+      "expect": "[]"
+    },
+    {
+      "input": [
+        1,
+        "a",
+        null
+      ],
+      "expect": "[1,\"a\",null]"
+    },
+    {
+      "input": [
+        [
+          []
+        ]
+      ],
+      "expect": "[[[]]]"
+    },
+    {
+      "input": {},
+      "expect": "{}"
+    },
+    {
+      "input": {
+        "b": 1,
+        "a": 2
+      },
+      "expect": "{\"a\":2,\"b\":1}"
+    },
+    {
+      "input": {
+        "0": 6,
+        "9": 8,
+        "10": 7,
+        "a.b": 1,
+        "a-b": 2,
+        "a_b": 3,
+        "A": 4,
+        "a": 5
+      },
+      "expect": "{\"0\":6,\"10\":7,\"9\":8,\"A\":4,\"a\":5,\"a-b\":2,\"a.b\":1,\"a_b\":3}"
+    },
+    {
+      "input": {
+        "nested": {
+          "z": [
+            1,
+            {
+              "y": "x"
+            }
+          ],
+          "a": false
+        }
+      },
+      "expect": "{\"nested\":{\"a\":false,\"z\":[1,{\"y\":\"x\"}]}}"
+    },
+    {
+      "input": {
+        "body": {
+          "slot": "S1",
+          "weights": [
+            3,
+            2,
+            1
+          ]
+        },
+        "version": 7
+      },
+      "expect": "{\"body\":{\"slot\":\"S1\",\"weights\":[3,2,1]},\"version\":7}"
+    }
+  ],
+  "canonical_invalid": [
+    {
+      "special": "NEG_ZERO",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "special": "NAN",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "special": "INFINITY",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "special": "FLOAT",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "special": "UNSAFE_INT",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "special": "UNDEFINED",
+      "expect_error": "AKANE_INVALID_JSON_TYPE"
+    },
+    {
+      "special": "FUNCTION",
+      "expect_error": "AKANE_INVALID_JSON_TYPE"
+    },
+    {
+      "special": "DATE",
+      "expect_error": "AKANE_INVALID_JSON_OBJECT"
+    },
+    {
+      "special": "MAP",
+      "expect_error": "AKANE_INVALID_JSON_OBJECT"
+    },
+    {
+      "special": "SPARSE_ARRAY",
+      "expect_error": "AKANE_INVALID_JSON_ARRAY"
+    },
+    {
+      "special": "CIRCULAR",
+      "expect_error": "AKANE_CIRCULAR_JSON"
+    },
+    {
+      "special": "KEY_SPACE",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "KEY_JAPANESE",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "KEY_EMPTY",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "KEY_PROTO",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "KEY_CONSTRUCTOR",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "KEY_PROTOTYPE",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "special": "LONE_HIGH",
+      "expect_error": "AKANE_INVALID_UNICODE"
+    },
+    {
+      "special": "LONE_LOW",
+      "expect_error": "AKANE_INVALID_UNICODE"
+    },
+    {
+      "special": "REVERSED_PAIR",
+      "expect_error": "AKANE_INVALID_UNICODE"
+    },
+    {
+      "special": "NESTED_UNDEFINED",
+      "expect_error": "AKANE_INVALID_JSON_TYPE"
+    },
+    {
+      "special": "BIGINT",
+      "expect_error": "AKANE_INVALID_JSON_TYPE"
+    },
+    {
+      "special": "SYMBOL",
+      "expect_error": "AKANE_INVALID_JSON_TYPE"
+    }
+  ],
+  "parse_canonical": [
+    {
+      "source": "{\"a\":1}",
+      "expect": "{\"a\":1}"
+    },
+    {
+      "source": "{ \"a\":1}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "{\"b\":1,\"a\":2}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "",
+      "expect_error": "AKANE_INVALID_JSON_INPUT"
+    },
+    {
+      "source": "   ",
+      "expect_error": "AKANE_INVALID_JSON_INPUT"
+    },
+    {
+      "source": "{a}",
+      "expect_error": "AKANE_JSON_PARSE_FAILED"
+    },
+    {
+      "source": "1.0",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "1",
+      "expect": "1"
+    },
+    {
+      "source": "{\"a\":1,\"a\":2}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "\"\\u00e9\"",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "\"é\"",
+      "expect": "\"é\""
+    },
+    {
+      "source": "[1,2]",
+      "expect": "[1,2]"
+    },
+    {
+      "source": "[1, 2]",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "null",
+      "expect": "null"
+    },
+    {
+      "source": "{\"x\":1e3}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "{\"x\":-0}",
+      "expect_error": "AKANE_INVALID_JSON_NUMBER"
+    },
+    {
+      "source": "\"\\ud800\"",
+      "expect_error": "AKANE_INVALID_UNICODE"
+    },
+    {
+      "source": "{\"__proto__\":1}",
+      "expect_error": "AKANE_INVALID_JSON_KEY"
+    },
+    {
+      "source": "{\"k\":\"\\u2028\"}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "{\"k\":\" \"}",
+      "expect": "{\"k\":\" \"}"
+    },
+    {
+      "source": "{\"k\":\"\\/\"}",
+      "expect_error": "AKANE_JSON_NOT_CANONICAL"
+    },
+    {
+      "source": "{\"k\":\"/\"}",
+      "expect": "{\"k\":\"/\"}"
+    }
+  ],
+  "sha256": [
+    {
+      "text": "",
+      "expect": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "text": "abc",
+      "expect": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    },
+    {
+      "text": "あかね",
+      "expect": "8ae6e47940f23bea16b9bb0a54c5fb1800808e74c69bedc2bc664d1f64b65420"
+    },
+    {
+      "text": "{\"a\":1}",
+      "expect": "015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862"
+    }
+  ],
+  "hmac": [
+    {
+      "key": "b3db381e27753a8eaec4f3c9694fdf39894cd8bd43310d02703e23744488a684",
+      "text": "",
+      "expect": "28136a45dc5d4c81dc9ff65365536bf34f50c5be7b87451205e223c6e018fc2b"
+    },
+    {
+      "key": "b3db381e27753a8eaec4f3c9694fdf39894cd8bd43310d02703e23744488a684",
+      "text": "abc",
+      "expect": "26f5750b11a7a089b47bbd257aec3bd1d85bacbead5a264f803bc84424a1b2e5"
+    },
+    {
+      "key": "b3db381e27753a8eaec4f3c9694fdf39894cd8bd43310d02703e23744488a684",
+      "text": "{\"a\":\"あかね\"}",
+      "expect": "a37d13be7ddbd67d310e49e382665aa9c48e892cf43e4cf73de9b8197fb1b3f7"
+    },
+    {
+      "key": "5d21aa95dbd9844433274d13f12473ef3878320abd6b6df6d8e4c8201574db41",
+      "text": "abc",
+      "expect": "77b00d6566f413716f5d371fde6c0b8aadc4659bc431c90dfe837dbc6841d788"
+    }
+  ],
+  "bundle_build": {
+    "fields": {
+      "kind": "OPERATION",
+      "env": "PROD",
+      "version": 3,
+      "issued_at": "2026-11-01T09:00:00+09:00",
+      "expires_at": "2026-11-15T09:00:00+09:00",
+      "experiment_id": "EXP_E3_001",
+      "body": {
+        "first_line_type": {
+          "A": "scene",
+          "B": "murmur"
+        },
+        "emoji_range": [
+          1,
+          3
+        ],
+        "note": "テスト"
+      }
+    },
+    "key": "test_key",
+    "expect": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}"
+  },
+  "bundle_verify": [
+    {
+      "name": "ok",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": null
+    },
+    {
+      "name": "ok_at_skew_edge",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793490900000,
+      "key": "test_key",
+      "expect": null
+    },
+    {
+      "name": "not_yet_valid",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793490899000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_NOT_YET_VALID"
+    },
+    {
+      "name": "expired_exact",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1794700800000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_EXPIRED"
+    },
+    {
+      "name": "wrong_env",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "DEV",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_ENV_MISMATCH"
+    },
+    {
+      "name": "wrong_key",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "other_key",
+      "expect": "AKANE_BUNDLE_SIGNATURE_INVALID"
+    },
+    {
+      "name": "body_tampered",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmor\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_SIGNATURE_INVALID"
+    },
+    {
+      "name": "version_tampered",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":4}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_SIGNATURE_INVALID"
+    },
+    {
+      "name": "hash_wrong_but_signed",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"x\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"10dad7c2f603227f4271b73520ac67af12128df60a58314163b62077b54e643f\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_HASH_MISMATCH"
+    },
+    {
+      "name": "not_canonical_space",
+      "text": "{ \"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"f39208ccdd663dbede80a43e270e971f028cd5e0c6332c45ff1f1442767cd50e\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "extra_key",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"extra\":1,\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"8b0692eaf3cf4c7e36d60c38a330bd35b0d59e0543ccd6f99fc78382ed1f3706\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "validity_over_14_days",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"86e65c17ed6e8d71ec8b48b0368e403bdb56a2196fccf004bbe30110347a622c\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:01+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"7efcc0175da0eeb6c3e46e32c35d1e9b088db7dcbdbdd9f6b0911cd024e4b425\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "bad_time_format",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"c5c2fc58a0393335b95c46b2dbf5523de8ec52b45a1b4c5f0a58f4ffacfcd658\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01 09:00:00\",\"kind\":\"OPERATION\",\"signature\":\"edcf55215e714f4f5c0ec145630479b0c836bb6eebf3b479943d6ee86a94f702\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "impossible_date",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"ef81fb88bcdebceb7526b6763dec4876ec655ddbc7b59c9e55e0684c19f13037\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-03-05T09:00:00+09:00\",\"issued_at\":\"2026-02-30T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"93153369ee7f38d9fa16db3e21a9b8df55be25232595ead6080e9bee40809992\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "version_zero",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"ba7d8cb8919a435516ce7a86768567fe871578b9eff5ca06195e56ab7dccb166\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"8f6e3bc058de9a0eac9db4ad6d1cef78c8eeee6354b94f99a9cab7bfae440cb9\",\"v\":1,\"version\":0}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "bad_kind",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"d267e61d05f789a0736679858a76f4aa59077fd5b4613a519dd4d306336dd0c7\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"ADMIN\",\"signature\":\"7c2203697745df84a480d98dd6eab858e0cd31ca5461ab703eabec5d48c76875\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "bad_experiment_id",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"918d2c22c7e10d2b10407d7359ab5ca7c88fc8edb6bf4d860a20d66f2f242a53\",\"env\":\"PROD\",\"experiment_id\":\"x y\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"e0e5fac1413fb51014c12f31cdda3ebbe4578d51f9ecd3fbc7a66ef87d4ce9f8\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "body_array",
+      "text": "{\"body\":[],\"content_hash\":\"c97554867a74ab2d8a44fe3a2a3546c25124b9d4784ddea290a1b40f678b2eb8\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"472ac902832fcdb914a81f76cbba36668000f37b7059e24b9ddf74ae2f2b3196\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "uppercase_signature",
+      "text": "{\"body\":{\"emoji_range\":[1,3],\"first_line_type\":{\"A\":\"scene\",\"B\":\"murmur\"},\"note\":\"テスト\"},\"content_hash\":\"e9ed9dfe0d2fec557ed22dabf9f4027fd22b63961575f89b41a5671ac783d158\",\"env\":\"PROD\",\"experiment_id\":\"EXP_E3_001\",\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"F39208CCDD663DBEDE80A43E270E971F028CD5E0C6332C45FF1F1442767CD50E\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    },
+    {
+      "name": "governance_ok",
+      "text": "{\"body\":{\"k4\":true},\"content_hash\":\"f779ee63cd0a36280c5cd224ce9c7b9781bf61297bea35022c74ecc4aefb0ca2\",\"env\":\"PROD\",\"experiment_id\":null,\"expires_at\":\"2026-11-15T09:00:00+09:00\",\"issued_at\":\"2026-11-01T09:00:00+09:00\",\"kind\":\"GOVERNANCE\",\"signature\":\"3bf7e69906efa159709ad290d9ee6459a30f368754b13465d83e004e89d25212\",\"v\":1,\"version\":3}",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "other_key",
+      "expect": null
+    },
+    {
+      "name": "empty_text",
+      "text": "",
+      "env": "PROD",
+      "nowMs": 1793545200000,
+      "key": "test_key",
+      "expect": "AKANE_BUNDLE_FORMAT"
+    }
+  ]
+}
