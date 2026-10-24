@@ -1,0 +1,75 @@
+# G0 先行検証（手動実行だけ。公開リポジトリのため、ログに秘密やIDを出さない）
+# OIDC → Workload Identity → サービスアカウントの短期トークン → Sheets API
+# 長期の鍵（JSON鍵）は使わない。外部アクションはコミットのハッシュで固定する。
+#
+# mode
+#   verify      基準1・8：environment「prod」（main だけ）で Sheets API を検証する
+#   neg-no-env  基準3-B：environment なし（main）で STS 交換を試し、attribute condition で拒否されることを確かめる（g0/neg.mjs）
+# 基準3-A（GitHub 側の拒否）は、ブランチ g0-neg で mode=verify を実行して、job が environment で止まることを確かめる。
+
+name: g0-verify
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'verify（基準1・8）/ neg-no-env（基準3-B）'
+        type: choice
+        options:
+          - verify
+          - neg-no-env
+        default: verify
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: g0-verify
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: ${{ inputs.mode == 'verify' }}
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Google Cloud auth (Workload Identity)
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SA_EMAIL }}
+          token_format: access_token
+          access_token_lifetime: 600s
+          access_token_scopes: https://www.googleapis.com/auth/spreadsheets
+          create_credentials_file: false
+
+      - name: Verify Sheets API
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          LINK_SHEET_ID: ${{ secrets.LINK_SHEET_ID }}
+          MAIN_SHEET_ID: ${{ secrets.MAIN_SHEET_ID }}
+        run: node g0/verify.mjs
+
+  neg-no-env:
+    if: ${{ inputs.mode == 'neg-no-env' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # auth アクションは使わず、OIDC 取得と STS 交換を自分で行い、拒否の理由（attribute condition）まで確かめる
+      - name: Expect rejection by attribute condition
+        env:
+          GCP_WIF_PROVIDER: ${{ vars.GCP_WIF_PROVIDER }}
+        run: node g0/neg.mjs
