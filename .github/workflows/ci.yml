@@ -1,0 +1,37 @@
+# CI：プルリクエストと main への反映で、試験を実行する（秘密は使わない）
+# 公開リポジトリのため、pull_request_target は使わない。外部アクションはコミットのハッシュで固定する。
+
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node version
+        run: node --version
+
+      - name: G1 security tests
+        run: node security/test.mjs
+
+      - name: Vectors are up to date
+        run: |
+          node security/make-vectors.mjs > /tmp/vectors.json
+          diff -q security/vectors.json /tmp/vectors.json
