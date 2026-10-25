@@ -1,0 +1,45 @@
+# G2 データ品質の確認（手動実行だけ。定期実行は G8 で決める）
+# メインのスプレッドシートの「イベント」シートを読むだけ（サービスアカウントは閲覧者。読み取り専用のスコープで要求する）。
+# 公開リポジトリのため、ログと Summary には件数だけを出す（ID・本文・URL・トークンは出さない）。
+# 外部アクションはコミットのハッシュで固定する。長期の鍵は使わない（G0 と同じ Workload Identity）。
+
+name: data-quality
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: data-quality
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Google Cloud auth (Workload Identity)
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SA_EMAIL }}
+          token_format: access_token
+          access_token_lifetime: 300s
+          access_token_scopes: https://www.googleapis.com/auth/spreadsheets.readonly
+          create_credentials_file: false
+
+      - name: Data quality (read only)
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          MAIN_SHEET_ID: ${{ secrets.MAIN_SHEET_ID }}
+        run: node data/check.mjs
