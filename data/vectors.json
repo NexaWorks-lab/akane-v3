@@ -1,0 +1,1216 @@
+{
+ "note": "G2 共通試験データ。GAS 99 akane_testG2Vectors と data/test.mjs が使う。手で編集しない（make-vectors.mjs で作る）",
+ "headers": [
+  "event_id",
+  "event_type",
+  "subject_key",
+  "observation_id",
+  "observed_at",
+  "recorded_at",
+  "source",
+  "env",
+  "payload",
+  "corrects"
+ ],
+ "event_types": [
+  "POST_PLANNED",
+  "POST_SENDING",
+  "POST_PUBLISHED",
+  "POST_SKIPPED",
+  "POST_RESULT_UNKNOWN",
+  "REPLY_PLANNED",
+  "REPLY_SENT",
+  "REPLY_SKIPPED",
+  "METRIC_72H",
+  "CLICKS_DAILY",
+  "FOLLOWERS_DAILY",
+  "DATA_QUALITY_FAILED",
+  "EXPERIMENT_REGISTERED",
+  "ASSIGNMENT_ISSUED",
+  "DECISION",
+  "BUNDLE_ISSUED",
+  "BUNDLE_ACCEPTED",
+  "BUNDLE_REJECTED",
+  "BUNDLE_EXPIRED",
+  "CORRECTION",
+  "INTAKE_REJECTED",
+  "DELIVERY_ACK",
+  "HALT_SET",
+  "HALT_CLEARED",
+  "HALT_CLEAR_REJECTED",
+  "OPERATION_EPOCH"
+ ],
+ "rows": [
+  {
+   "name": "ok",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": true
+  },
+  {
+   "name": "correction_ok",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000002",
+    "CORRECTION",
+    "CORRECTION:FOLLOWERS_DAILY:2026-11-02",
+    "OBS_803356a79ede60cd8d470427768900a3c28ee46d",
+    "2026-11-02T06:00:00+09:00",
+    "2026-11-02T06:00:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"value\":{\"followers\":121}}",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186"
+   ],
+   "ok": true
+  },
+  {
+   "name": "actions_dev_ok",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000003",
+    "DECISION",
+    "DECISION:X1:mid",
+    "OBS_7cf204e1084d6d4ad0529db8d80320ae2a17dc44",
+    "2026-11-02T06:00:00+09:00",
+    "2026-11-02T06:00:00+09:00",
+    "ACTIONS",
+    "DEV",
+    "{\"r\":1}",
+    ""
+   ],
+   "ok": true
+  },
+  {
+   "name": "too_short",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}"
+   ],
+   "ok": false
+  },
+  {
+   "name": "too_long",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    "",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "non_string",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    1,
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "bad_event_id",
+   "row": [
+    "EVT_x",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "unknown_type",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "NOPE",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "subject_prefix",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "METRIC_72H:1",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "obs_mismatch",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_0000000000000000000000000000000000000000",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "observed_no_offset",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "observed_bad_date",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-02-30T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "recorded_hour_24",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T24:00:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "unknown_source",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "OTHER",
+    "PROD",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "prod_source_dev_env",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "DEV",
+    "{\"followers\":120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "payload_not_canonical",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\": 120}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "payload_array",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "[1]",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "payload_float",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":1.5}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "corrects_on_normal",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000001",
+    "FOLLOWERS_DAILY",
+    "FOLLOWERS_DAILY:2026-11-02",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+    "2026-11-02T05:30:00+09:00",
+    "2026-11-02T05:30:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"followers\":120}",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186"
+   ],
+   "ok": false
+  },
+  {
+   "name": "correction_without_target",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000002",
+    "CORRECTION",
+    "CORRECTION:FOLLOWERS_DAILY:2026-11-02",
+    "OBS_803356a79ede60cd8d470427768900a3c28ee46d",
+    "2026-11-02T06:00:00+09:00",
+    "2026-11-02T06:00:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"value\":{\"followers\":121}}",
+    ""
+   ],
+   "ok": false
+  },
+  {
+   "name": "correction_value_not_object",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000004",
+    "CORRECTION",
+    "CORRECTION:FOLLOWERS_DAILY:2026-11-02",
+    "OBS_803356a79ede60cd8d470427768900a3c28ee46d",
+    "2026-11-02T06:00:00+09:00",
+    "2026-11-02T06:00:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"value\":3}",
+    "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186"
+   ],
+   "ok": false
+  },
+  {
+   "name": "subject_control_char",
+   "row": [
+    "EVT_00000000-0000-4000-8000-000000000005",
+    "METRIC_72H",
+    "METRIC_72H:1\u0007",
+    "OBS_6303a9b282b43293db20f7b767b833b917eb94e6",
+    "2026-11-02T06:00:00+09:00",
+    "2026-11-02T06:00:00+09:00",
+    "GAS-PROD",
+    "PROD",
+    "{\"views\":1}",
+    ""
+   ],
+   "ok": false
+  }
+ ],
+ "reconstruct": [
+  {
+   "name": "reacquire_latest_wins",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000010",
+     "METRIC_72H",
+     "METRIC_72H:100",
+     "OBS_a38c4ef8c12f1ebc378e7b3d1e4e27087bb8fa5b",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"code\":\"X\",\"missing\":true}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000011",
+     "METRIC_72H",
+     "METRIC_72H:100",
+     "OBS_4c1f3ad1636f5ee031ebd1ad7e7e865f5d21809a",
+     "2026-11-02T06:30:00+09:00",
+     "2026-11-02T06:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"likes\":1,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":5}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000012",
+     "METRIC_72H",
+     "METRIC_72H:101",
+     "OBS_b4a87f56585abaac0248586466893e46947835a0",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"likes\":0,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":9}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000010",
+     "EVT_00000000-0000-4000-8000-000000000012",
+     "EVT_00000000-0000-4000-8000-000000000011"
+    ],
+    "subjects": [
+     {
+      "key": "METRIC_72H:100",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000011",
+      "recorded_at": "2026-11-02T06:30:00+09:00",
+      "value": "{\"likes\":1,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":5}",
+      "corrected": false,
+      "count": 2,
+      "quarantined": false
+     },
+     {
+      "key": "METRIC_72H:101",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000012",
+      "recorded_at": "2026-11-02T05:30:00+09:00",
+      "value": "{\"likes\":0,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":9}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "duplicate_same_content",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000020",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-02",
+     "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":10}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000020",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-02",
+     "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:31:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":10}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000020"
+    ],
+    "subjects": [
+     {
+      "key": "FOLLOWERS_DAILY:2026-11-02",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000020",
+      "recorded_at": "2026-11-02T05:30:00+09:00",
+      "value": "{\"followers\":10}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "id_conflict_quarantine",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000030",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-03",
+     "OBS_e04d707d227fc29c38ffa82730db2ce3022415e2",
+     "2026-11-03T05:30:00+09:00",
+     "2026-11-03T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":10}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000030",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-03",
+     "OBS_e04d707d227fc29c38ffa82730db2ce3022415e2",
+     "2026-11-03T05:30:00+09:00",
+     "2026-11-03T05:31:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":99}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000031",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-03",
+     "OBS_3fbbcfae8a78f30031e7760f0c5dbe191a8ade3a",
+     "2026-11-03T05:40:00+09:00",
+     "2026-11-03T05:40:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":11}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000032",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-04",
+     "OBS_4bc6347bf230fa562684e545860fbfef363f9e35",
+     "2026-11-04T05:30:00+09:00",
+     "2026-11-04T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":12}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000031",
+     "EVT_00000000-0000-4000-8000-000000000032"
+    ],
+    "subjects": [
+     {
+      "key": "FOLLOWERS_DAILY:2026-11-03",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000031",
+      "recorded_at": "2026-11-03T05:40:00+09:00",
+      "value": "{\"followers\":11}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": true
+     },
+     {
+      "key": "FOLLOWERS_DAILY:2026-11-04",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000032",
+      "recorded_at": "2026-11-04T05:30:00+09:00",
+      "value": "{\"followers\":12}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [
+     "EVENT_ID_CONFLICT|EVT_00000000-0000-4000-8000-000000000030|FOLLOWERS_DAILY:2026-11-03"
+    ],
+    "quarantined": [
+     "FOLLOWERS_DAILY:2026-11-03"
+    ]
+   }
+  },
+  {
+   "name": "corrections",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000040",
+     "CLICKS_DAILY",
+     "CLICKS_DAILY:2026-11-01:ALL",
+     "OBS_a9bb5bec7f8944a0aff0ea89ab47237ab3246c87",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"date\":\"2026-11-01\",\"total\":3,\"urls\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000041",
+     "CLICKS_DAILY",
+     "CLICKS_DAILY:2026-10-31:ALL",
+     "OBS_fa081b61663513baf808ad0dfec305c542e036fd",
+     "2026-11-01T05:30:00+09:00",
+     "2026-11-01T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"date\":\"2026-10-31\",\"total\":1,\"urls\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000042",
+     "CLICKS_DAILY",
+     "CLICKS_DAILY:2026-10-31:ALL",
+     "OBS_d32a5d8ecaec9ef5c3ec350ecdf2c44db578860e",
+     "2026-11-01T06:30:00+09:00",
+     "2026-11-01T06:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"date\":\"2026-10-31\",\"total\":2,\"urls\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000043",
+     "CORRECTION",
+     "CORRECTION:CLICKS_DAILY:2026-11-01:ALL",
+     "OBS_bb520fcd1381cfb09bbe67eb05937172d8df9dbc",
+     "2026-11-02T08:00:00+09:00",
+     "2026-11-02T08:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"date\":\"2026-11-01\",\"total\":4,\"urls\":1}}",
+     "OBS_a9bb5bec7f8944a0aff0ea89ab47237ab3246c87"
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000044",
+     "CORRECTION",
+     "CORRECTION:CLICKS_DAILY:2026-11-01:ALL",
+     "OBS_8794aadab8e6ba98e5bb4f4855623243a2d3281f",
+     "2026-11-02T09:00:00+09:00",
+     "2026-11-02T09:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"date\":\"2026-11-01\",\"total\":5,\"urls\":1}}",
+     "OBS_a9bb5bec7f8944a0aff0ea89ab47237ab3246c87"
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000045",
+     "CORRECTION",
+     "CORRECTION:CLICKS_DAILY:x",
+     "OBS_41c155e9ce7cc4fdf03f73636b4cd2d37ded478d",
+     "2026-11-02T08:00:00+09:00",
+     "2026-11-02T08:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"a\":1}}",
+     "OBS_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000046",
+     "CORRECTION",
+     "CORRECTION:CLICKS_DAILY:2026-10-31:ALL",
+     "OBS_b93dcbf91c5072bdddabfc1625eb441ece643586",
+     "2026-11-02T08:00:00+09:00",
+     "2026-11-02T08:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"a\":1}}",
+     "OBS_fa081b61663513baf808ad0dfec305c542e036fd"
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000041",
+     "EVT_00000000-0000-4000-8000-000000000042",
+     "EVT_00000000-0000-4000-8000-000000000040",
+     "EVT_00000000-0000-4000-8000-000000000043",
+     "EVT_00000000-0000-4000-8000-000000000045",
+     "EVT_00000000-0000-4000-8000-000000000046",
+     "EVT_00000000-0000-4000-8000-000000000044"
+    ],
+    "subjects": [
+     {
+      "key": "CLICKS_DAILY:2026-10-31:ALL",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000042",
+      "recorded_at": "2026-11-01T06:30:00+09:00",
+      "value": "{\"date\":\"2026-10-31\",\"total\":2,\"urls\":1}",
+      "corrected": false,
+      "count": 2,
+      "quarantined": false
+     },
+     {
+      "key": "CLICKS_DAILY:2026-11-01:ALL",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000040",
+      "recorded_at": "2026-11-02T05:30:00+09:00",
+      "value": "{\"date\":\"2026-11-01\",\"total\":5,\"urls\":1}",
+      "corrected": true,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [
+     "CORRECTION_TARGET_MISSING|EVT_00000000-0000-4000-8000-000000000045|CORRECTION:CLICKS_DAILY:x",
+     "CORRECTION_TARGET_NOT_ADOPTED|EVT_00000000-0000-4000-8000-000000000046|CORRECTION:CLICKS_DAILY:2026-10-31:ALL"
+    ],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "first_only",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000050",
+     "POST_PLANNED",
+     "POST_PLANNED:2026-11-02:S1",
+     "OBS_8afddf0c5eeb2b021c9700d9bd1a6a7060ad3433",
+     "2026-11-02T07:00:00+09:00",
+     "2026-11-02T07:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"dry_run\":true,\"slot\":\"S1\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000051",
+     "POST_PLANNED",
+     "POST_PLANNED:2026-11-02:S1",
+     "OBS_a7bfdb6e080aca3c2f7ab4bbbf2058c97985f1cd",
+     "2026-11-02T07:05:00+09:00",
+     "2026-11-02T07:05:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"dry_run\":true,\"slot\":\"S1\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000052",
+     "POST_PLANNED",
+     "POST_PLANNED:2026-11-02:S1",
+     "OBS_ccaceef1900aaab057748a9aa3b511481098d9be",
+     "2026-11-02T07:10:00+09:00",
+     "2026-11-02T07:10:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"dry_run\":false,\"slot\":\"S1\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000053",
+     "POST_PUBLISHED",
+     "POST_PUBLISHED:2026-11-02:S2",
+     "OBS_077aaab4ef5c30ab77592aa802cd3deac5979efe",
+     "2026-11-02T12:00:00+09:00",
+     "2026-11-02T12:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"id\":\"1\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000054",
+     "POST_PUBLISHED",
+     "POST_PUBLISHED:2026-11-02:S2",
+     "OBS_3dd4d33fd99d5c408246da26211466af8f6fe819",
+     "2026-11-02T12:01:00+09:00",
+     "2026-11-02T12:01:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"id\":\"2\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000055",
+     "EXPERIMENT_REGISTERED",
+     "EXPERIMENT_REGISTERED:E1",
+     "OBS_8ee3e459bd61dfe3fc05dfd51a29c2cfcaf5aaab",
+     "2026-11-02T01:00:00+09:00",
+     "2026-11-02T01:00:00+09:00",
+     "ACTIONS",
+     "PROD",
+     "{\"h\":\"a\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000056",
+     "EXPERIMENT_REGISTERED",
+     "EXPERIMENT_REGISTERED:E1",
+     "OBS_a4cf94d5b42cfa7bb5b248a45d34c2b83c30c176",
+     "2026-11-02T02:00:00+09:00",
+     "2026-11-02T02:00:00+09:00",
+     "ACTIONS",
+     "PROD",
+     "{\"h\":\"b\"}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000055",
+     "EVT_00000000-0000-4000-8000-000000000056",
+     "EVT_00000000-0000-4000-8000-000000000050",
+     "EVT_00000000-0000-4000-8000-000000000051",
+     "EVT_00000000-0000-4000-8000-000000000052",
+     "EVT_00000000-0000-4000-8000-000000000053",
+     "EVT_00000000-0000-4000-8000-000000000054"
+    ],
+    "subjects": [
+     {
+      "key": "EXPERIMENT_REGISTERED:E1",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000055",
+      "recorded_at": "2026-11-02T01:00:00+09:00",
+      "value": "{\"h\":\"a\"}",
+      "corrected": false,
+      "count": 2,
+      "quarantined": false
+     },
+     {
+      "key": "POST_PLANNED:2026-11-02:S1",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000050",
+      "recorded_at": "2026-11-02T07:00:00+09:00",
+      "value": "{\"dry_run\":true,\"slot\":\"S1\"}",
+      "corrected": false,
+      "count": 3,
+      "quarantined": false
+     },
+     {
+      "key": "POST_PUBLISHED:2026-11-02:S2",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000053",
+      "recorded_at": "2026-11-02T12:00:00+09:00",
+      "value": "{\"id\":\"1\"}",
+      "corrected": false,
+      "count": 2,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [
+     "DOUBLE_PUBLISH|EVT_00000000-0000-4000-8000-000000000054|POST_PUBLISHED:2026-11-02:S2",
+     "FIRST_ONLY_DUPLICATE|EVT_00000000-0000-4000-8000-000000000052|POST_PLANNED:2026-11-02:S1",
+     "REGISTRATION_CHANGED|EVT_00000000-0000-4000-8000-000000000056|EXPERIMENT_REGISTERED:E1"
+    ],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "ordering_ties",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000062",
+     "DECISION",
+     "DECISION:E2:mid",
+     "OBS_b0d0ab71629cd60e0acf7413e6932976e7de14a6",
+     "2026-11-02T03:00:00+09:00",
+     "2026-11-02T03:00:00+09:00",
+     "ACTIONS",
+     "PROD",
+     "{\"r\":\"a\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000061",
+     "DATA_QUALITY_FAILED",
+     "DATA_QUALITY_FAILED:FOLLOWERS:2026-11-02",
+     "OBS_e3e45c5d11a52d97fa88a1b4d5c0338f4660677b",
+     "2026-11-02T03:00:00+09:00",
+     "2026-11-02T03:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"kind\":\"FOLLOWERS\",\"reason\":\"SPIKE\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000060",
+     "DATA_QUALITY_FAILED",
+     "DATA_QUALITY_FAILED:FOLLOWERS:2026-11-02",
+     "OBS_e3e45c5d11a52d97fa88a1b4d5c0338f4660677b",
+     "2026-11-02T03:00:00+09:00",
+     "2026-11-02T03:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"kind\":\"FOLLOWERS\",\"reason\":\"SHAPE\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000063",
+     "HALT_SET",
+     "HALT_SET:ALL.F4",
+     "OBS_4a628922943d22e874eb47fca97f9c479de822c3",
+     "2026-11-02T03:00:00+09:00",
+     "2026-11-02T03:00:00+09:00",
+     "GAS-DEV",
+     "DEV",
+     "{\"s\":1}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000060",
+     "EVT_00000000-0000-4000-8000-000000000061",
+     "EVT_00000000-0000-4000-8000-000000000063",
+     "EVT_00000000-0000-4000-8000-000000000062"
+    ],
+    "subjects": [
+     {
+      "key": "DATA_QUALITY_FAILED:FOLLOWERS:2026-11-02",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000061",
+      "recorded_at": "2026-11-02T03:00:00+09:00",
+      "value": "{\"kind\":\"FOLLOWERS\",\"reason\":\"SPIKE\"}",
+      "corrected": false,
+      "count": 2,
+      "quarantined": false
+     },
+     {
+      "key": "DECISION:E2:mid",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000062",
+      "recorded_at": "2026-11-02T03:00:00+09:00",
+      "value": "{\"r\":\"a\"}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     },
+     {
+      "key": "HALT_SET:ALL.F4",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000063",
+      "recorded_at": "2026-11-02T03:00:00+09:00",
+      "value": "{\"s\":1}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "conflicted_correction",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000070",
+     "METRIC_72H",
+     "METRIC_72H:200",
+     "OBS_56d694aa425450b707ef5be7cb30afdb967bd9e4",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"likes\":0,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000071",
+     "CORRECTION",
+     "CORRECTION:METRIC_72H:200",
+     "OBS_ab8400c09312d637ef24f32fae0d3e83705a0d56",
+     "2026-11-02T07:00:00+09:00",
+     "2026-11-02T07:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"views\":2}}",
+     "OBS_56d694aa425450b707ef5be7cb30afdb967bd9e4"
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000071",
+     "CORRECTION",
+     "CORRECTION:METRIC_72H:200",
+     "OBS_ab8400c09312d637ef24f32fae0d3e83705a0d56",
+     "2026-11-02T07:00:00+09:00",
+     "2026-11-02T07:01:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"value\":{\"views\":3}}",
+     "OBS_56d694aa425450b707ef5be7cb30afdb967bd9e4"
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000070"
+    ],
+    "subjects": [
+     {
+      "key": "METRIC_72H:200",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000070",
+      "recorded_at": "2026-11-02T05:30:00+09:00",
+      "value": "{\"likes\":0,\"quotes\":0,\"replies\":0,\"reposts\":0,\"views\":1}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": true
+     }
+    ],
+    "anomalies": [
+     "EVENT_ID_CONFLICT|EVT_00000000-0000-4000-8000-000000000071|CORRECTION:METRIC_72H:200"
+    ],
+    "quarantined": [
+     "CORRECTION:METRIC_72H:200",
+     "METRIC_72H:200"
+    ]
+   }
+  },
+  {
+   "name": "invalid_rows",
+   "epoch": false,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000080",
+     "REPLY_PLANNED",
+     "REPLY_PLANNED:300",
+     "OBS_633a7580eeb7728b0c89b47e75c75e92231b6e41",
+     "2026-11-02T09:00:00+09:00",
+     "2026-11-02T09:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"reply_to\":\"300\",\"round\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000001",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-02",
+     "OBS_8ea7fcdc691ecca213589e487660bdbe3df15186",
+     "2026-11-02T05:30:00+09:00",
+     "2026-11-02T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "not json",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000001",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-02"
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000080"
+    ],
+    "subjects": [
+     {
+      "key": "REPLY_PLANNED:300",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000080",
+      "recorded_at": "2026-11-02T09:00:00+09:00",
+      "value": "{\"reply_to\":\"300\",\"round\":1}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [
+     "INVALID_ROW||"
+    ],
+    "quarantined": []
+   }
+  },
+  {
+   "name": "since_epoch",
+   "epoch": true,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000092",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-01",
+     "OBS_bf45d835f48b865ba4c716234d1928eecb31e557",
+     "2026-11-01T05:30:00+09:00",
+     "2026-11-01T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":1}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000090",
+     "OPERATION_EPOCH",
+     "OPERATION_EPOCH:2026-11-01",
+     "OBS_438a82b0e91a3a1906def25738d02bf00b71febe",
+     "2026-11-01T00:00:00+09:00",
+     "2026-11-01T00:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"note\":\"start\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000091",
+     "OPERATION_EPOCH",
+     "OPERATION_EPOCH:2026-11-02",
+     "OBS_a2a9501926396fbd689687949b19521163bcc0c7",
+     "2026-11-02T00:00:00+09:00",
+     "2026-11-02T00:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"note\":\"owner\"}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000093",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-02",
+     "OBS_1eafb26617dd9f663f9da624d60c4a2f533c1515",
+     "2026-11-02T00:00:00+09:00",
+     "2026-11-02T00:00:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":2}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000094",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-03",
+     "OBS_e04d707d227fc29c38ffa82730db2ce3022415e2",
+     "2026-11-03T05:30:00+09:00",
+     "2026-11-03T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":3}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000095",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-01",
+     "OBS_b4e4c39174310b6fc4fdbbfa7c171558852f4878",
+     "2026-11-01T06:30:00+09:00",
+     "2026-11-01T06:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":4}",
+     ""
+    ],
+    [
+     "EVT_00000000-0000-4000-8000-000000000095",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-04",
+     "OBS_4bc6347bf230fa562684e545860fbfef363f9e35",
+     "2026-11-04T05:30:00+09:00",
+     "2026-11-04T05:31:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":5}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [
+     "EVT_00000000-0000-4000-8000-000000000094"
+    ],
+    "subjects": [
+     {
+      "key": "FOLLOWERS_DAILY:2026-11-03",
+      "adopted": "EVT_00000000-0000-4000-8000-000000000094",
+      "recorded_at": "2026-11-03T05:30:00+09:00",
+      "value": "{\"followers\":3}",
+      "corrected": false,
+      "count": 1,
+      "quarantined": false
+     }
+    ],
+    "anomalies": [
+     "EVENT_ID_CONFLICT|EVT_00000000-0000-4000-8000-000000000095|FOLLOWERS_DAILY:2026-11-01"
+    ],
+    "quarantined": [
+     "FOLLOWERS_DAILY:2026-11-01",
+     "FOLLOWERS_DAILY:2026-11-04"
+    ]
+   }
+  },
+  {
+   "name": "no_epoch",
+   "epoch": true,
+   "rows": [
+    [
+     "EVT_00000000-0000-4000-8000-000000000096",
+     "FOLLOWERS_DAILY",
+     "FOLLOWERS_DAILY:2026-11-05",
+     "OBS_42fda75df2848f5630ecbf9e813b1068903ea070",
+     "2026-11-05T05:30:00+09:00",
+     "2026-11-05T05:30:00+09:00",
+     "GAS-PROD",
+     "PROD",
+     "{\"followers\":6}",
+     ""
+    ]
+   ],
+   "expect": {
+    "ordered": [],
+    "subjects": [],
+    "anomalies": [],
+    "quarantined": []
+   }
+  }
+ ]
+}
