@@ -31,6 +31,8 @@ const ctx = (previous) => ({ registry: cfg.registry, baseline: cfg.baseline, pre
 // ---------- 1. 設定の定義 ----------
 ck('config loads and validates', validateConfig(cfg) === true);
 ck('vectors carry the same constitution copy', canonicalJson(clone(V.constitution)) === canonicalJson(clone(cfg.constitution)));
+ck('vectors carry the same registry and baseline (GAS 13 compares its copy, G3b)', canonicalJson(clone(V.registry)) === canonicalJson(clone(cfg.registry)) &&
+  canonicalJson(clone(V.baseline)) === canonicalJson(clone(cfg.baseline)));
 ck('allowlist types equal the constitution copy (E1..E7)', JSON.stringify(cfg.allowlist.experiments.map((e) => e.type)) ===
   JSON.stringify(cfg.constitution.EXPERIMENT_TYPES));
 ck('every experiment in the allowlist has at least one parameter', cfg.constitution.EXPERIMENT_TYPES.every((t) =>
