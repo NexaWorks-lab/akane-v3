@@ -1,0 +1,16 @@
+{
+ "note": "変更可能パラメータ表（仕様 v0.6 7.6。2026-10-25 オーナー承認：設計案 v0.2）。範囲・項目・累積の上限の変更は K4（オーナー承認）。値は整数か選択肢のコードだけ。",
+ "schema": 1,
+ "max_changed_params": 1,
+ "params": [
+  { "name": "B_BULLET_PCT", "experiment": "E1", "type": "INT", "min": 0, "max": 50, "step": 10, "drift": 20 },
+  { "name": "THEME_SEASON_BONUS_X10", "experiment": "E2", "type": "INT", "min": 0, "max": 30, "step": 5, "drift": 10 },
+  { "name": "THEME_RECENT_PENALTY_PCT", "experiment": "E2", "type": "INT", "min": 50, "max": 150, "step": 25, "drift": 50 },
+  { "name": "FIRST_LINE_STYLE", "experiment": "E3", "type": "ENUM", "values": ["SCENE", "MURMUR"] },
+  { "name": "NORMAL_LINES_MAX", "experiment": "E4", "type": "INT", "min": 3, "max": 4, "step": 1, "drift": 1 },
+  { "name": "NORMAL_EMOJI_MAX", "experiment": "E4", "type": "INT", "min": 1, "max": 3, "step": 1, "drift": 2 },
+  { "name": "PRODUCT_SLOT", "experiment": "E5", "type": "ENUM", "values": ["S3", "S4"] },
+  { "name": "PRODUCT_ANGLE_MODE", "experiment": "E6", "type": "ENUM", "values": ["ROTATE", "SPACE", "TIME", "EFFORT", "TIDY", "LOOKS", "DECIDE"] },
+  { "name": "LINK_POSITION", "experiment": "E7", "type": "ENUM", "values": ["REPLY", "BODY"] }
+ ]
+}
