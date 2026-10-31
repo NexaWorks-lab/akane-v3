@@ -127,6 +127,8 @@ intakeCases.push({ name: 'at_most_20_per_run', rows: limitRows, acked: [], resul
 process.stdout.write(JSON.stringify({
   note: 'G3a 共通試験データ。GAS 99 akane_testG3Vectors と config/test.mjs が使う。手で編集しない（make-vectors.mjs で作る）',
   constitution: cfg.constitution,
+  registry: cfg.registry,
+  baseline: cfg.baseline,
   test_key: G1.test_key,
   now_ms: NOW,
   issued,
