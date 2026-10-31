@@ -43,3 +43,11 @@ jobs:
         run: |
           node data/make-vectors.mjs > /tmp/data-vectors.json
           diff -q data/vectors.json /tmp/data-vectors.json
+
+      - name: G3a config tests
+        run: node config/test.mjs
+
+      - name: G3a vectors are up to date
+        run: |
+          node config/make-vectors.mjs > /tmp/config-vectors.json
+          diff -q config/vectors.json /tmp/config-vectors.json
