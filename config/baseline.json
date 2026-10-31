@@ -1,0 +1,15 @@
+{
+ "note": "基準設定（障害時に戻る保守的な設定。K4）＝ 今の 02（LOCK 済み）の動作。G6 の実験もここから始める。",
+ "schema": 1,
+ "params": {
+  "B_BULLET_PCT": 25,
+  "THEME_SEASON_BONUS_X10": 15,
+  "THEME_RECENT_PENALTY_PCT": 100,
+  "FIRST_LINE_STYLE": "SCENE",
+  "NORMAL_LINES_MAX": 4,
+  "NORMAL_EMOJI_MAX": 3,
+  "PRODUCT_SLOT": "S4",
+  "PRODUCT_ANGLE_MODE": "ROTATE",
+  "LINK_POSITION": "REPLY"
+ }
+}
