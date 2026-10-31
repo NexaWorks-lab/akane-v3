@@ -1,0 +1,159 @@
+# G3b 運用設定一式（OPERATION）の発行（手動実行だけ・main だけ。2026-10-31 オーナー承認）
+#
+# 3つのジョブ：
+#   1. prepare（environment prod・読み取りだけ）：受け入れ済みの最大版・直前の params・送信箱の未処理の行を読み、
+#      次の版と params を決める。未処理の行があれば止める（AKANE_ISSUE_PENDING）。「状態の印」を出力する。
+#   2. sign（environment issue・必須レビュアー＝オーナー）：オーナーが承認したときだけ動く。運用鍵はこの environment の
+#      シークレットだけ。Google には触れない。
+#   3. append（environment prod）：書く直前に状態を読み直し、印が違えば書かない（AKANE_ISSUE_STATE_CHANGED）。
+#      発行から1時間を過ぎていれば書かない（AKANE_ISSUE_STALE）。送信箱_運用に1行を追記する。
+# 公開リポジトリのため、ログと Summary には版・コードだけを出す（鍵・トークン・ID・全文は出さない）。
+# 入力は環境変数で渡す（スクリプトの文字列に埋め込まない）。外部アクションはコミットのハッシュで固定する。
+
+name: issue-operation
+
+on:
+  workflow_dispatch:
+    inputs:
+      param:
+        description: '変える項目（1回に1つ。NONE＝同じ値のまま新しい版を出す＝期限の延長）'
+        type: choice
+        required: true
+        default: NONE
+        options:
+          - NONE
+          - B_BULLET_PCT
+          - THEME_SEASON_BONUS_X10
+          - THEME_RECENT_PENALTY_PCT
+          - FIRST_LINE_STYLE
+          - NORMAL_LINES_MAX
+          - NORMAL_EMOJI_MAX
+          - PRODUCT_SLOT
+          - PRODUCT_ANGLE_MODE
+          - LINK_POSITION
+      value:
+        description: '新しい値（整数か選択肢のコード。NONE のときは空のまま）'
+        type: string
+        required: false
+        default: ''
+      confirm_rejected:
+        description: '前回の送信が拒否された原因をオーナーが確かめた（ふだんは外したまま）'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: issue-operation
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      plan: ${{ steps.plan.outputs.plan }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Config tests (no secrets)
+        run: node config/test.mjs && node config/issue-test.mjs
+
+      - name: Google Cloud auth (Workload Identity, read only)
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SA_EMAIL }}
+          token_format: access_token
+          access_token_lifetime: 300s
+          access_token_scopes: https://www.googleapis.com/auth/spreadsheets.readonly
+          create_credentials_file: false
+
+      - name: Prepare (read state, decide version and params)
+        id: plan
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          MAIN_SHEET_ID: ${{ secrets.MAIN_SHEET_ID }}
+          LINK_SHEET_ID: ${{ secrets.LINK_SHEET_ID }}
+          INPUT_PARAM: ${{ inputs.param }}
+          INPUT_VALUE: ${{ inputs.value }}
+          INPUT_CONFIRM_REJECTED: ${{ inputs.confirm_rejected }}
+        run: node config/issue-run.mjs prepare
+
+  sign:
+    needs: prepare
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: issue
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      bundle: ${{ steps.sign.outputs.bundle }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Sign (owner approved this job)
+        id: sign
+        env:
+          OPERATION_SIGNING_KEY: ${{ secrets.OPERATION_SIGNING_KEY }}
+          PLAN: ${{ needs.prepare.outputs.plan }}
+        run: node config/issue-run.mjs sign
+
+  append:
+    needs: [prepare, sign]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: prod
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Signed bundle was passed
+        env:
+          BUNDLE: ${{ needs.sign.outputs.bundle }}
+        run: |
+          if [ -z "$BUNDLE" ]; then
+            echo "発行：失敗（AKANE_ISSUE_BUNDLE_MISSING）"
+            exit 1
+          fi
+
+      - name: Google Cloud auth (Workload Identity, outbox append)
+        id: auth
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SA_EMAIL }}
+          token_format: access_token
+          access_token_lifetime: 300s
+          access_token_scopes: https://www.googleapis.com/auth/spreadsheets
+          create_credentials_file: false
+
+      - name: Recheck state and append one row to the outbox
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          MAIN_SHEET_ID: ${{ secrets.MAIN_SHEET_ID }}
+          LINK_SHEET_ID: ${{ secrets.LINK_SHEET_ID }}
+          PLAN: ${{ needs.prepare.outputs.plan }}
+          BUNDLE: ${{ needs.sign.outputs.bundle }}
+        run: node config/issue-run.mjs append
