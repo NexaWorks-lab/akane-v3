@@ -1,5 +1,6 @@
 # G2 データ品質の確認（手動実行だけ。定期実行は G8 で決める）
 # メインのスプレッドシートの「イベント」シートを読むだけ（サービスアカウントは閲覧者。読み取り専用のスコープで要求する）。
+# G3b（2026-10-31）：連携用シートの「送信箱_運用」も読む（同じ読み取り専用のスコープ。書き込みはしない）。
 # 公開リポジトリのため、ログと Summary には件数だけを出す（ID・本文・URL・トークンは出さない）。
 # 外部アクションはコミットのハッシュで固定する。長期の鍵は使わない（G0 と同じ Workload Identity）。
 
@@ -42,4 +43,5 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
           MAIN_SHEET_ID: ${{ secrets.MAIN_SHEET_ID }}
+          LINK_SHEET_ID: ${{ secrets.LINK_SHEET_ID }}
         run: node data/check.mjs
