@@ -6,7 +6,7 @@
 //   registry.json      変更可能パラメータ表（範囲・1回の変更幅・累積の上限）
 //   baseline.json      基準設定（今の 02 の動作）
 //
-// 中身の規則（GAS の 13 の akane_bundlesBodyRulesStep1_ を G3b で置き換えるときに、同じ結果にする）
+// 中身の規則（GAS の 13 の akane_bundlesBodyRules_ と同じ結果。2026-10-31 G3b で GAS 側を置き換え済み）
 //   GOVERNANCE：ステップ1では受け入れない（AKANE_BUNDLE_GOVERNANCE_DISABLED）
 //   OPERATION ：experiment_id は null だけ（G6 まで）。本体は { schema, params } だけ。
 //     絶対範囲（表）・1回の変更幅（直前の受け入れ版。なければ基準設定）・累積の上限（基準設定から）・
