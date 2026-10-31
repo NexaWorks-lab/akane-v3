@@ -40,6 +40,114 @@
   },
   "MAX_CONCURRENT_EXPERIMENTS": 1
  },
+ "registry": {
+  "note": "変更可能パラメータ表（仕様 v0.6 7.6。2026-10-25 オーナー承認：設計案 v0.2）。範囲・項目・累積の上限の変更は K4（オーナー承認）。値は整数か選択肢のコードだけ。",
+  "schema": 1,
+  "max_changed_params": 1,
+  "params": [
+   {
+    "name": "B_BULLET_PCT",
+    "experiment": "E1",
+    "type": "INT",
+    "min": 0,
+    "max": 50,
+    "step": 10,
+    "drift": 20
+   },
+   {
+    "name": "THEME_SEASON_BONUS_X10",
+    "experiment": "E2",
+    "type": "INT",
+    "min": 0,
+    "max": 30,
+    "step": 5,
+    "drift": 10
+   },
+   {
+    "name": "THEME_RECENT_PENALTY_PCT",
+    "experiment": "E2",
+    "type": "INT",
+    "min": 50,
+    "max": 150,
+    "step": 25,
+    "drift": 50
+   },
+   {
+    "name": "FIRST_LINE_STYLE",
+    "experiment": "E3",
+    "type": "ENUM",
+    "values": [
+     "SCENE",
+     "MURMUR"
+    ]
+   },
+   {
+    "name": "NORMAL_LINES_MAX",
+    "experiment": "E4",
+    "type": "INT",
+    "min": 3,
+    "max": 4,
+    "step": 1,
+    "drift": 1
+   },
+   {
+    "name": "NORMAL_EMOJI_MAX",
+    "experiment": "E4",
+    "type": "INT",
+    "min": 1,
+    "max": 3,
+    "step": 1,
+    "drift": 2
+   },
+   {
+    "name": "PRODUCT_SLOT",
+    "experiment": "E5",
+    "type": "ENUM",
+    "values": [
+     "S3",
+     "S4"
+    ]
+   },
+   {
+    "name": "PRODUCT_ANGLE_MODE",
+    "experiment": "E6",
+    "type": "ENUM",
+    "values": [
+     "ROTATE",
+     "SPACE",
+     "TIME",
+     "EFFORT",
+     "TIDY",
+     "LOOKS",
+     "DECIDE"
+    ]
+   },
+   {
+    "name": "LINK_POSITION",
+    "experiment": "E7",
+    "type": "ENUM",
+    "values": [
+     "REPLY",
+     "BODY"
+    ]
+   }
+  ]
+ },
+ "baseline": {
+  "note": "基準設定（障害時に戻る保守的な設定。K4）＝ 今の 02（LOCK 済み）の動作。G6 の実験もここから始める。",
+  "schema": 1,
+  "params": {
+   "B_BULLET_PCT": 25,
+   "THEME_SEASON_BONUS_X10": 15,
+   "THEME_RECENT_PENALTY_PCT": 100,
+   "FIRST_LINE_STYLE": "SCENE",
+   "NORMAL_LINES_MAX": 4,
+   "NORMAL_EMOJI_MAX": 3,
+   "PRODUCT_SLOT": "S4",
+   "PRODUCT_ANGLE_MODE": "ROTATE",
+   "LINK_POSITION": "REPLY"
+  }
+ },
  "test_key": "b3db381e27753a8eaec4f3c9694fdf39894cd8bd43310d02703e23744488a684",
  "now_ms": 1793581200000,
  "issued": "{\"body\":{\"params\":{\"B_BULLET_PCT\":35,\"FIRST_LINE_STYLE\":\"SCENE\",\"LINK_POSITION\":\"REPLY\",\"NORMAL_EMOJI_MAX\":3,\"NORMAL_LINES_MAX\":4,\"PRODUCT_ANGLE_MODE\":\"ROTATE\",\"PRODUCT_SLOT\":\"S4\",\"THEME_RECENT_PENALTY_PCT\":100,\"THEME_SEASON_BONUS_X10\":15},\"schema\":1},\"content_hash\":\"e1ba3ae0a32b0998509f66a42ef0782e573edb252c5108ba53b6e42dc5ba6a30\",\"env\":\"PROD\",\"experiment_id\":null,\"expires_at\":\"2026-11-16T10:00:00+09:00\",\"issued_at\":\"2026-11-02T10:00:00+09:00\",\"kind\":\"OPERATION\",\"signature\":\"5a54bf5239f6130fac8f65d2eae1211cffa69f6d94318ced0c999f7ddc979526\",\"v\":1,\"version\":1}",
